@@ -21,7 +21,7 @@ if (isset($_GET['return_id'])) {
     if ($record) {
         $today     = date('Y-m-d');
         $fine      = 0.00;
-        $overdueDays = (int)max(0, (strtotime($today) - strtotime($record['return_date'])) / 86400);
+        $overdueDays = (int)ceil(max(0, (strtotime($today) - strtotime($record['return_date'])) / 86400));
         if ($overdueDays > 0) {
             $fine = $overdueDays * 1.00; // $1 per day fine
         }

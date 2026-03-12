@@ -17,8 +17,10 @@ if (!$conn) {
 mysqli_set_charset($conn, 'utf8mb4');
 
 function redirect($url) {
-    // Only allow relative paths to prevent open-redirect attacks
-    if (preg_match('#^https?://#i', $url)) {
+    // Only allow relative paths to prevent open-redirect attacks.
+    // A safe relative URL must start with a word character or dot (e.g. 'admin/page.php', '../index.php')
+    // and must not contain a protocol scheme (e.g. '://', 'javascript:').
+    if (!preg_match('#^[\w./]#', $url) || preg_match('#://#', $url)) {
         $url = 'index.php';
     }
     header("Location: $url");

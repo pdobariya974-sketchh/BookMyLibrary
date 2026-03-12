@@ -1,5 +1,7 @@
 /* BookMyLibrary – main.js */
 
+const DEFAULT_LOAN_DAYS = 14;
+
 document.addEventListener('DOMContentLoaded', function () {
 
     // ── Sidebar toggle (mobile) ──────────────────────────────────────────
@@ -58,7 +60,7 @@ document.addEventListener('DOMContentLoaded', function () {
         }, 5000);
     });
 
-    // ── Set default return date = issue_date + 14 days ──────────────────
+    // ── Set default return date = issue_date + DEFAULT_LOAN_DAYS ────────
     const issueDateInput  = document.querySelector('input[name="issue_date"]');
     const returnDateInput = document.querySelector('input[name="return_date"]');
 
@@ -66,7 +68,7 @@ document.addEventListener('DOMContentLoaded', function () {
         issueDateInput.addEventListener('change', function () {
             if (this.value) {
                 const d = new Date(this.value);
-                d.setDate(d.getDate() + 14);
+                d.setDate(d.getDate() + DEFAULT_LOAN_DAYS);
                 returnDateInput.min   = this.value;
                 returnDateInput.value = d.toISOString().split('T')[0];
             }

@@ -37,9 +37,13 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     if (!$category) $errors[] = 'Category is required.';
     if ($quantity < 1) $errors[] = 'Quantity must be at least 1.';
 
+    // Ensure new quantity is not less than currently issued copies
+    $issued = $book['quantity'] - $book['available'];
+    if (empty($errors) && $quantity < $issued) {
+        $errors[] = "Quantity cannot be less than the number of currently issued copies ($issued).";
+    }
+
     if (empty($errors)) {
-        // Keep available proportional: if qty increases/decreases, adjust available accordingly
-        $issued = $book['quantity'] - $book['available'];
         $newAvailable = max(0, $quantity - $issued);
 
         $upd = mysqli_prepare($conn,
